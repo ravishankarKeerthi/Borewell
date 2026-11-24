@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BoreWellOS AI – Water Well Drilling ERP</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#0f1b2d;--mut:#5b6b80;--line:#e2e7ee;--pri:#0b6e99;--pri2:#0e9fb8;--ok:#1a8a5a;--warn:#b7791f;--bad:#c0392b;--side:#0b1c30;--sideInk:#b9c7d8}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+.app{display:flex;min-height:100vh}
+aside{width:256px;background:var(--side);color:var(--sideInk);position:fixed;top:0;bottom:0;left:0;overflow-y:auto;z-index:20;transition:transform .2s}
+.brand{padding:18px 18px 14px;border-bottom:1px solid #1d3350}
+.brand b{display:block;color:#fff;font-size:17px;letter-spacing:.2px}
+.brand span{font-size:11.5px;color:#7fb8d6}
+.navg{padding:10px 0 4px}
+.navg h6{margin:6px 18px;font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:#5f7a98}
+.navg a{display:flex;justify-content:space-between;align-items:center;padding:7px 18px;color:var(--sideInk);text-decoration:none;font-size:13.2px;border-left:3px solid transparent}
+.navg a:hover{background:#12294a;color:#fff}
+.navg a.on{background:#12294a;color:#fff;border-left-color:var(--pri2)}
+.tagnew{font-size:9.5px;background:#0e9fb8;color:#fff;border-radius:8px;padding:1px 6px}
+main{margin-left:256px;flex:1;padding:22px 28px 60px;max-width:1400px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.top h1{font-size:21px;margin:0}
+.top p{margin:2px 0 0;color:var(--mut);font-size:13px}
+.menu{display:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.card h3{margin:0 0 10px;font-size:15px}
+.card h4{margin:12px 0 6px;font-size:13.5px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi small{color:var(--mut);font-size:12px}.kpi b{display:block;font-size:22px;margin-top:3px}.kpi i{font-style:normal;font-size:11.5px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:600;color:var(--mut);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--line);padding:7px 8px;white-space:nowrap}
+td{border-bottom:1px solid #eef1f5;padding:7px 8px;vertical-align:top}
+tr:hover td{background:#fafcfe}
+.tw{overflow-x:auto}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;white-space:nowrap}
+.p-ok{background:#e3f4ec;color:var(--ok)}.p-warn{background:#fdf1dc;color:var(--warn)}.p-bad{background:#fbe5e2;color:var(--bad)}.p-info{background:#e3f1f8;color:var(--pri)}.p-grey{background:#eef1f5;color:#56657a}
+.src{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600;margin-right:5px;vertical-align:1px;text-transform:uppercase;letter-spacing:.3px}
+.s-rec{background:#e3f4ec;color:#146c47}.s-est{background:#fdf1dc;color:#8a5a12}.s-ext{background:#eef1f5;color:#56657a}.s-ai{background:#e8e5fb;color:#4b3aa8}
+.banner{background:#fff8e8;border:1px solid #f1dcae;color:#6d4c0f;border-radius:8px;padding:9px 12px;font-size:12.5px;margin-bottom:14px}
+.banner.blue{background:#eaf5fb;border-color:#c4e2f1;color:#0b4f6e}
+label{display:block;font-size:12px;color:var(--mut);margin-bottom:3px;font-weight:500}
+input,select,textarea{width:100%;padding:7px 9px;border:1px solid #cfd8e3;border-radius:7px;font:inherit;font-size:13px;background:#fff}
+textarea{min-height:150px;resize:vertical}
+.fg{display:grid;gap:10px 14px;grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:7px;padding:8px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.btn:hover{background:#095a7d}.btn.sec{background:#fff;color:var(--pri);border:1px solid #b9d6e5}.btn.ok{background:var(--ok)}.btn.bad{background:var(--bad)}.btn.sm{padding:4px 9px;font-size:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chk label{display:flex;gap:7px;align-items:center;color:var(--ink);font-size:13px;margin:4px 0}
+.chk input{width:auto}
+ul.clean{margin:4px 0;padding-left:18px}ul.clean li{margin:3px 0}
+.muted{color:var(--mut)}.small{font-size:12px}
+.out{border-left:3px solid var(--pri2);background:#f7fbfd;border-radius:0 8px 8px 0;padding:10px 14px;margin-top:10px}
+.adv{border-radius:8px;padding:12px 14px;margin-top:10px;font-weight:500}
+.adv.ok{background:#e3f4ec;color:#11593b}.adv.warn{background:#fdf1dc;color:#71490d}.adv.bad{background:#fbe5e2;color:#86271c}
+.bar{height:8px;background:#eef1f5;border-radius:5px;overflow:hidden}.bar>div{height:100%;background:var(--pri2)}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;white-space:pre-wrap;background:#f6f8fb;border:1px solid var(--line);border-radius:7px;padding:10px}
+.lg{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--mut)}
+.toast{position:fixed;bottom:18px;right:18px;background:#0b1c30;color:#fff;padding:10px 14px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;z-index:50}
+.toast.show{opacity:1}
+.log td.form{font-weight:500;white-space:nowrap}.log td{white-space:nowrap}
+.phase{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff}
+.phase b{color:var(--pri)}
+@media(max-width:1000px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){aside{transform:translateX(-100%)}aside.open{transform:none}main{margin-left:0;padding:16px}.menu{display:block}.g2,.g3,.g4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside id="side"></aside>
+<main>
+<div class="top"><div class="row"><button class="menu" onclick="document.getElementById('side').classList.toggle('open')">☰</button><div><h1 id="ttl"></h1><p id="sub"></p></div></div>
+<div class="row small muted">Sample data · Tamil Nadu demo region · Units: feet (metres shown)</div></div>
+<div id="view"></div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+/* ---------- utilities ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=mulberry32(20261123);
+const rnd=(a,b)=>a+(b-a)*R(), ri=(a,b)=>Math.round(rnd(a,b)), pick=a=>a[Math.floor(R()*a.length)];
+const r50=x=>Math.round(x/50)*50, r10=x=>Math.round(x/10)*10;
+const m=f=>Math.round(f*0.3048);
+const ftm=f=>`${Math.round(f).toLocaleString('en-IN')} ft <span class="muted small">(${m(f)} m)</span>`;
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const lakh=n=>'₹'+(n/100000).toFixed(2)+' L';
+const sortN=a=>[...a].sort((x,y)=>x-y);
+const pct=(a,p)=>{if(!a.length)return null;const s=sortN(a);const i=(s.length-1)*p,lo=Math.floor(i),hi=Math.ceil(i);return s[lo]+(s[hi]-s[lo])*(i-lo)};
+const med=a=>pct(a,.5);
+const fmtD=d=>d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pill=(t,c)=>`<span class="pill p-${c}">${t}</span>`;
+const S={rec:'<span class="src s-rec">Recorded</span>',est:'<span class="src s-est">Model estimate</span>',ext:'<span class="src s-ext">External dataset</span>',ai:'<span class="src s-ai">AI generated</span>'};
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
+function copyText(t){try{navigator.clipboard.writeText(t).then(()=>toast('Copied to clipboard'),()=>toast('Copy not allowed here – select and copy manually'))}catch(e){toast('Copy not allowed here')}}
+const DEMO='Demo mode: rule-based and statistical calculations on sample data. No live AI model or external geological dataset is connected.';
+const banner=(t=DEMO)=>`<div class="banner">⚠ ${t}</div>`;
+
+/* ---------- master data ---------- */
+const REG={
+ Dindigul:{blocks:['Oddanchatram','Vedasandur','Natham','Palani'],strike:[380,760],succ:.66,y:[1500,5200],ovb:[35,65]},
+ Madurai:{blocks:['Melur','Usilampatti','Peraiyur','Thirumangalam'],strike:[300,680],succ:.72,y:[1800,5600],ovb:[30,60]},
+ Theni:{blocks:['Andipatti','Bodinayakanur','Cumbum'],strike:[240,560],succ:.79,y:[2200,6500],ovb:[25,55]},
+ Virudhunagar:{blocks:['Aruppukottai','Sattur','Kariapatti'],strike:[450,920],succ:.57,y:[1000,4000],ovb:[40,75]},
+ Sivaganga:{blocks:['Manamadurai','Karaikudi','Ilayangudi'],strike:[360,820],succ:.62,y:[1200,4500],ovb:[35,70]}
+};
+const FORM={Topsoil:{rate:60},'Weathered rock':{rate:40},'Fractured gneiss':{rate:24},'Hard granite gneiss':{rate:14}};
+const DIESEL_LPH=30; // rig + compressor, sample
+const expL=f=>DIESEL_LPH/FORM[f].rate;
+let SLABS=[[300,90],[500,110],[700,140],[900,180],[1100,230],[1300,290],[99999,360]];
+function drillCost(d){let c=0,prev=0,rows=[];for(const[upto,rate]of SLABS){if(d<=prev)break;const seg=Math.min(d,upto)-prev;c+=seg*rate;rows.push({from:prev,to:prev+seg,rate,amt:seg*rate});prev=upto}return{c,rows}}
+const CASING_RATE=450, MOB=6000, FLUSH=3000;
+const stdCost=(d,cas)=>drillCost(d).c+cas*CASING_RATE+MOB+FLUSH;
+const CUST=['Murugan K','Selvi R','Ramasamy Farms','Lakshmi Textiles','Senthil Kumar','Annamalai P','Kavitha S','Muthu Agro','Pandian T','Velu Poultry Farm','Jeyaraj M','Sri Balaji Industries','Karuppasamy A','Meena Devi','Chellappan V','Rajendran Orchards','Saravanan G','Thangam Dairy','Ponnusamy N','Bharathi Coconut Farm'];
+const RIGS=[
+ {id:'R-01',type:'Truck-mounted DTH, 1,500 ft class',status:'Drilling',eng:212,comp:455,ham:5600,bit:1320,trend:-14,lastBd:180},
+ {id:'R-02',type:'Truck-mounted DTH, 1,500 ft class',status:'Drilling',eng:96,comp:180,ham:2100,bit:640,trend:-3,lastBd:65},
+ {id:'R-03',type:'Truck-mounted DTH, 1,200 ft class',status:'Maintenance',eng:20,comp:30,ham:300,bit:120,trend:0,lastBd:4},
+ {id:'R-04',type:'Truck-mounted DTH, 1,200 ft class',status:'Drilling',eng:238,comp:490,ham:6400,bit:1480,trend:-22,lastBd:40},
+ {id:'R-05',type:'Tractor-mounted DTH, 800 ft class',status:'Idle',eng:150,comp:260,ham:3300,bit:900,trend:-6,lastBd:120},
+ {id:'R-06',type:'Truck-mounted DTH, 1,500 ft class',status:'Drilling',eng:175,comp:410,ham:4700,bit:1100,trend:-9,lastBd:22}
+];
+
+/* ---------- historical jobs ---------- */
+function makeLog(depth,ovb,strikes){
+ const ts=ri(8,18);let bps=new Set([0,ts,ovb,depth]);
+ strikes.forEach(s=>{bps.add(Math.max(ovb+5,s-20));bps.add(Math.min(depth,s+15))});
+ for(let d=ovb+ri(60,120);d<depth-30;d+=ri(70,140))bps.add(d);
+ const pts=sortN([...bps]).filter(x=>x<=depth);const log=[];
+ for(let i=0;i<pts.length-1;i++){const a=pts[i],b=pts[i+1];if(b-a<3)continue;let f,obs='';
+  if(b<=ts)f='Topsoil';else if(b<=ovb)f='Weathered rock';
+  else{const w=strikes.filter(s=>s>=a&&s<=b);if(w.length){f='Fractured gneiss';obs='Water strike at '+w.join(', ')+' ft'}else f=R()<.22?'Fractured gneiss':'Hard granite gneiss'}
+  if(f==='Fractured gneiss'&&!obs)obs='Fractured, dry';if(f==='Hard granite gneiss')obs=pick(['Grey cuttings','Dark grey fine cuttings','Pinkish cuttings','Grey, compact']);if(f==='Weathered rock')obs='Brown murrum / weathered';if(f==='Topsoil')obs='Red soil';
+  const rate=FORM[f].rate*rnd(.82,1.18);log.push({from:a,to:b,form:f,rate:+rate.toFixed(1),diesel:Math.round((b-a)*DIESEL_LPH/rate),obs})}
+ return log}
+const JOBS=[];
+(function(){const start=new Date(2024,3,1);const dists=Object.keys(REG);
+ for(let i=0;i<72;i++){const dist=pick(dists),g=REG[dist],block=pick(g.blocks);const use=R()<.7?'Agriculture':R()<.85?'Domestic':'Industrial';
+  const planned=r50((g.strike[0]+g.strike[1])/2+180);const ovb=ri(...g.ovb);const cas=r10(ovb+ri(5,15));const u=R();let outcome,strikes=[],depth,yld;
+  if(u<g.succ){outcome='Success';const s1=ri(g.strike[0],g.strike[1]);strikes=[s1];if(R()<.4)strikes.push(s1+ri(60,200));depth=r10(Math.max(...strikes)+ri(40,160));yld=ri(...g.y)}
+  else if(u<g.succ+(1-g.succ)*.45){outcome='Low yield';const s1=ri(g.strike[0],g.strike[1]+100);strikes=[s1];depth=r10(s1+ri(60,200));yld=ri(300,1000)}
+  else{outcome='Dry';depth=r10(g.strike[1]+ri(80,300));yld=0}
+  const date=new Date(start.getTime()+i*9.6*864e5+ri(0,4)*864e5);const quote=stdCost(planned,cas);const actual=stdCost(depth,cas)*rnd(.96,1.07);
+  const log=makeLog(depth,ovb,strikes);const id='BW-'+String(date.getFullYear()).slice(2)+'-'+String(100+i).padStart(3,'0');
+  JOBS.push({id,cust:pick(CUST),date,dist,block,use,rig:pick(RIGS).id,planned,depth,ovb,cas,strikes,yld,outcome,quote,actual,log,gps:R()>.1,pump:outcome!=='Dry'&&R()>.25,diesel:log.reduce((s,l)=>s+l.diesel,0)})}})();
+const DONE=JOBS.filter(j=>j.date<new Date(2026,9,25));
+
+/* ---------- active jobs & daily logs ---------- */
+const ACTIVE=[
+ {id:'BW-26-118',cust:'Bharathi Coconut Farm',dist:'Dindigul',block:'Oddanchatram',use:'Agriculture',rig:'R-01',planned:900,cur:610,strikes:[545],started:new Date(2026,10,19),planDays:4,ovb:52,cas:60},
+ {id:'BW-26-121',cust:'Thangam Dairy',dist:'Madurai',block:'Melur',use:'Agriculture',rig:'R-04',planned:750,cur:330,strikes:[265],started:new Date(2026,10,21),planDays:3,ovb:40,cas:50},
+ {id:'BW-26-122',cust:'Sri Balaji Industries',dist:'Virudhunagar',block:'Aruppukottai',use:'Industrial',rig:'R-06',planned:1000,cur:880,strikes:[],started:new Date(2026,10,17),planDays:5,ovb:68,cas:80},
+ {id:'BW-26-124',cust:'Ponnusamy N',dist:'Theni',block:'Andipatti',use:'Domestic',rig:'R-02',planned:500,cur:210,strikes:[],started:new Date(2026,10,22),planDays:2,ovb:34,cas:40}
+];
+const DAILY=[
+ {d:'20 Nov',job:'BW-26-118',rig:'R-01',form:'Weathered rock',ft:180,hrs:5.2,diesel:150},
+ {d:'21 Nov',job:'BW-26-118',rig:'R-01',form:'Hard granite gneiss',ft:240,hrs:16.5,diesel:520},
+ {d:'22 Nov',job:'BW-26-118',rig:'R-01',form:'Fractured gneiss',ft:190,hrs:10.5,diesel:310},
+ {d:'21 Nov',job:'BW-26-121',rig:'R-04',form:'Weathered rock',ft:170,hrs:4.6,diesel:128},
+ {d:'22 Nov',job:'BW-26-121',rig:'R-04',form:'Hard granite gneiss',ft:160,hrs:18.4,diesel:430},
+ {d:'18 Nov',job:'BW-26-122',rig:'R-06',form:'Weathered rock',ft:220,hrs:5.8,diesel:170},
+ {d:'19 Nov',job:'BW-26-122',rig:'R-06',form:'Hard granite gneiss',ft:230,hrs:16.0,diesel:505},
+ {d:'20 Nov',job:'BW-26-122',rig:'R-06',form:'Hard granite gneiss',ft:210,hrs:15.2,diesel:640},
+ {d:'21 Nov',job:'BW-26-122',rig:'R-06',form:'Fractured gneiss',ft:220,hrs:9.4,diesel:285},
+ {d:'22 Nov',job:'BW-26-124',rig:'R-02',form:'Weathered rock',ft:120,hrs:3.1,diesel:95},
+ {d:'23 Nov',job:'BW-26-124',rig:'R-02',form:'Hard granite gneiss',ft:90,hrs:6.6,diesel:140}
+];
+DAILY.forEach(x=>{x.rate=x.ft/x.hrs;x.lpf=x.diesel/x.ft;x.eRate=FORM[x.form].rate;x.eL=expL(x.form);x.flags=[];
+ if(x.lpf>x.eL*1.25)x.flags.push(['Diesel '+Math.round((x.lpf/x.eL-1)*100)+'% above expected for formation – verify issue log / tank reading','bad']);
+ if(x.rate<x.eRate*.65)x.flags.push(['Penetration '+Math.round((1-x.rate/x.eRate)*100)+'% below expected – check bit/hammer wear, air pressure','warn']);
+ if(x.hrs>16)x.flags.push(['Shift '+x.hrs+' h – crew fatigue / logging check','warn'])});
+const ENQ=[
+ {id:'ENQ-26-0412',cust:'Rajendran Orchards',dist:'Dindigul',block:'Oddanchatram',use:'Agriculture',target:1000,survey:'Geophysical survey done',gps:true,stage:'Survey done'},
+ {id:'ENQ-26-0415',cust:'Meena Devi',dist:'Madurai',block:'Usilampatti',use:'Domestic',target:500,survey:'Not done',gps:true,stage:'New'},
+ {id:'ENQ-26-0417',cust:'Saravanan G',dist:'Sivaganga',block:'Manamadurai',use:'Agriculture',target:850,survey:'Scheduled 25 Nov',gps:false,stage:'Survey scheduled'},
+ {id:'ENQ-26-0419',cust:'Muthu Agro',dist:'Virudhunagar',block:'Sattur',use:'Agriculture',target:1100,survey:'Geophysical survey done',gps:true,stage:'Quoted'},
+ {id:'ENQ-26-0420',cust:'Jeyaraj M',dist:'Theni',block:'Bodinayakanur',use:'Domestic',target:400,survey:'Not done',gps:true,stage:'New'},
+ {id:'ENQ-26-0422',cust:'Lakshmi Textiles',dist:'Madurai',block:'Thirumangalam',use:'Industrial',target:900,survey:'Geophysical survey done',gps:true,stage:'Quoted'}
+];
+const INVOICES=DONE.slice(-14).map((j,i)=>{const amt=Math.round(j.actual*1.18);const paid=i%4===0?0:i%3===0?Math.round(amt*.5):amt;const due=new Date(j.date.getTime()+15*864e5);return{no:'INV-'+j.id.slice(3),job:j.id,cust:j.cust,amt,paid,due,age:Math.max(0,Math.round((new Date(2026,10,23)-due)/864e5))}});
+const TICKETS=[
+ {id:'SRV-0231',cust:'Murugan K',job:DONE[5].id,issue:'Yield reduced after summer',type:'Re-flushing',status:'Open',days:3},
+ {id:'SRV-0234',cust:'Velu Poultry Farm',job:DONE[12].id,issue:'Submersible pump stuck at 410 ft',type:'Pump fishing',status:'Scheduled',days:2},
+ {id:'SRV-0237',cust:'Kavitha S',job:DONE[20].id,issue:'Muddy water first 10 min',type:'Inspection',status:'Open',days:6},
+ {id:'SRV-0239',cust:'Sri Balaji Industries',job:DONE[30].id,issue:'AMC quarterly yield check',type:'AMC',status:'Completed',days:0},
+ {id:'SRV-0240',cust:'Annamalai P',job:DONE[41].id,issue:'Bore camera inspection requested',type:'Inspection',status:'Open',days:9}
+];
+const INV=[
+ {item:'DTH button bit 6½"',uom:'Nos',stock:9,reorder:6,per1k:0.45},
+ {item:'DTH hammer 6" (rebuild kit)',uom:'Set',stock:2,reorder:2,per1k:0.08},
+ {item:'Drill rod 20 ft',uom:'Nos',stock:18,reorder:10,per1k:0.05},
+ {item:'PVC casing pipe 7" (20 ft)',uom:'Nos',stock:46,reorder:40,per1k:3.4},
+ {item:'MS casing pipe 7" (20 ft)',uom:'Nos',stock:12,reorder:8,per1k:0.6},
+ {item:'High-speed diesel',uom:'Litre',stock:4200,reorder:3000,per1k:1350},
+ {item:'Compressor oil',uom:'Litre',stock:140,reorder:120,per1k:6},
+ {item:'DTH hammer oil',uom:'Litre',stock:60,reorder:80,per1k:4.5},
+ {item:'Foam / drilling additive',uom:'Litre',stock:90,reorder:50,per1k:2.2}
+];
+const FLEET_FT_DAY=760; // sample avg feet drilled per day across fleet
+let AUDIT=[{t:'22 Nov 18:40',who:'Site Engineer – R-06',act:'Checkpoint 800 ft: continue to 1,000 ft',det:'Customer consent recorded (call + signed slip)'}];
+
+/* ---------- views ---------- */
+const NAV=[
+ ['Overview',[['dashboard','Dashboard']]],
+ ['ERP Operations',[['enquiries','Enquiries & Site Survey'],['quotes','Quotations'],['jobs','Drilling Jobs'],['rigs','Rigs & Fleet'],['inventory','Inventory & Consumables'],['billing','Billing & Collections'],['service','Service & AMC']]],
+ ['AI Intelligence Centre',[['ai-site','Site Intelligence'],['ai-checkpoint','Depth Checkpoint (Go/Stop)',1],['ai-borelog','Bore Log Assistant'],['ai-anomaly','Drilling Anomaly Monitor'],['ai-cost','Cost & Quotation AI'],['ai-rig','Rig Maintenance Risk'],['ai-field','Field Report Copilot'],['ai-yield','Yield Analysis'],['ai-exceptions','Exception Monitor'],['ai-customer','Customer Assistant'],['ai-permits','Permits & Compliance',1],['ai-accuracy','Model Accuracy & Feedback',1]]],
+ ['Strategy',[['review','Review & Recommendations',1],['architecture','Architecture & Roadmap'],['governance','AI Governance']]]
+];
+const TITLES={};NAV.forEach(g=>g[1].forEach(x=>TITLES[x[0]]=x[1]));
+const SUBS={dashboard:'Operations + AI intelligence at a glance','ai-site':'Compare a new site with recorded regional borewells before quoting','ai-checkpoint':'Decision support while drilling: continue, review with customer, or stop','ai-borelog':'Depth-wise formation record with pattern summary','ai-anomaly':'Diesel and penetration checked against expected values per formation','ai-cost':'Per-foot slab pricing with historical variance (P50 / P80)','ai-rig':'Service-interval and performance based risk score','ai-field':'Turn free-text / voice field notes (English, Tamil) into a structured report','ai-yield':'Pump test drawdown and recovery assessment','ai-exceptions':'Everything that needs attention today','ai-customer':'Borewell history summary and reply drafts','ai-permits':'Configurable statutory and safety checklist per job','ai-accuracy':'Predicted vs actual – how much to trust the AI',review:'Assessment of the proposal and what was added',architecture:'Technology stack and phased roadmap',governance:'Human approval, provenance and audit'};
+let VIEW='dashboard';let SEL={site:{dist:'Dindigul',block:'Oddanchatram',use:'Agriculture',target:1000,chk:[true,true,false,true,false]},bore:null,cust:null,ck:null};
+
+function renderNav(){document.getElementById('side').innerHTML=`<div class="brand"><b>💧 BoreWellOS AI</b><span>Water Well Drilling ERP + AI Intelligence</span></div>`+NAV.map(g=>`<div class="navg"><h6>${g[0]}</h6>${g[1].map(x=>`<a href="#${x[0]}" class="${VIEW===x[0]?'on':''}"><span>${x[1]}</span>${x[2]?'<span class="tagnew">NEW</span>':''}</a>`).join('')}</div>`).join('')+`<div style="padding:14px 18px;font-size:11px;color:#5f7a98">Demo build · sample data only</div>`}
+function go(v){location.hash=v}
+function route(){const h=location.hash.replace('#','');VIEW=TITLES[h]?h:'dashboard';renderNav();document.getElementById('ttl').textContent=TITLES[VIEW];document.getElementById('sub').textContent=SUBS[VIEW]||'ERP workflow';document.getElementById('view').innerHTML=(V[VIEW]||V.dashboard)();(AFTER[VIEW]||(()=>{}))();document.getElementById('side').classList.remove('open');window.scrollTo(0,0)}
+const V={},AFTER={};
+
+/* exceptions engine */
+function getExceptions(){const E=[];
+ DAILY.forEach(x=>x.flags.forEach(f=>E.push({sev:f[1],area:'Drilling',ref:`${x.job} / ${x.rig} / ${x.d}`,msg:f[0],go:'ai-anomaly'})));
+ ACTIVE.forEach(a=>{const days=Math.round((new Date(2026,10,23)-a.started)/864e5);if(days>a.planDays)E.push({sev:'warn',area:'Schedule',ref:a.id,msg:`Day ${days} of planned ${a.planDays} – delay`,go:'jobs'});
+  if(!a.strikes.length&&a.cur>=a.planned*.8)E.push({sev:'bad',area:'Depth',ref:a.id,msg:`No water strike at ${a.cur} ft (${Math.round(a.cur/a.planned*100)}% of planned) – checkpoint decision needed`,go:'ai-checkpoint'})});
+ RIGS.forEach(r=>{const s=rigRisk(r);if(s.score>=70)E.push({sev:'bad',area:'Rig',ref:r.id,msg:'High maintenance risk ('+s.score+'): '+s.why[0],go:'ai-rig'});if(r.status==='Idle')E.push({sev:'warn',area:'Rig',ref:r.id,msg:'Rig idle – assign to pending enquiry',go:'rigs'})});
+ INVOICES.filter(i=>i.amt>i.paid&&i.age>30).forEach(i=>E.push({sev:i.age>60?'bad':'warn',area:'Collections',ref:i.no,msg:`${inr(i.amt-i.paid)} overdue ${i.age} days – ${i.cust}`,go:'billing'}));
+ INV.filter(x=>x.stock<=x.reorder).forEach(x=>E.push({sev:'warn',area:'Inventory',ref:x.item,msg:`Stock ${x.stock} ${x.uom} at/below reorder level ${x.reorder}`,go:'inventory'}));
+ const nogps=DONE.slice(-30).filter(j=>!j.gps);if(nogps.length)E.push({sev:'warn',area:'Data quality',ref:nogps.map(j=>j.id).join(', '),msg:'Completed jobs without GPS – excluded from Site Intelligence',go:'ai-site'});
+ return E.sort((a,b)=>(a.sev==='bad'?0:1)-(b.sev==='bad'?0:1))}
+
+/* ---- Dashboard ---- */
+V.dashboard=()=>{const last=DONE.slice(-30);const sr=last.filter(j=>j.outcome==='Success').length/last.length;const ft=DAILY.reduce((s,d)=>s+d.ft,0);
+ const out=INVOICES.reduce((s,i)=>s+i.amt-i.paid,0);const E=getExceptions();
+ const byD=Object.keys(REG).map(d=>{const js=DONE.filter(j=>j.dist===d);return{d,n:js.length,s:js.filter(j=>j.outcome==='Success').length/js.length,dep:med(js.map(j=>j.depth))}});
+ return `<div class="grid g4">
+ <div class="kpi"><small>Active drilling jobs</small><b>${ACTIVE.length}</b><i>${RIGS.filter(r=>r.status==='Drilling').length} rigs drilling · ${RIGS.filter(r=>r.status==='Idle').length} idle · ${RIGS.filter(r=>r.status==='Maintenance').length} maintenance</i></div>
+ <div class="kpi"><small>Feet drilled (last 6 days)</small><b>${ft.toLocaleString('en-IN')} ft</b><i>${m(ft)} m</i></div>
+ <div class="kpi"><small>Success rate – last 30 bores</small><b>${Math.round(sr*100)}%</b><i>Success = usable yield recorded</i></div>
+ <div class="kpi"><small>Receivables outstanding</small><b>${lakh(out)}</b><i>${INVOICES.filter(i=>i.amt>i.paid&&i.age>30).length} invoices > 30 days</i></div></div>
+ <div class="grid g2" style="margin-top:14px">
+ <div class="card"><h3>🤖 AI alerts today (${E.length})</h3><div class="tw"><table><tr><th>Severity</th><th>Area</th><th>Alert</th></tr>${E.slice(0,8).map(e=>`<tr style="cursor:pointer" onclick="go('${e.go}')"><td>${pill(e.sev==='bad'?'High':'Medium',e.sev)}</td><td>${e.area}</td><td><b>${esc(e.ref)}</b><br><span class="small">${e.msg}</span></td></tr>`).join('')}</table></div><div style="margin-top:8px"><button class="btn sec sm" onclick="go('ai-exceptions')">Open Exception Monitor →</button></div></div>
+ <div class="card"><h3>Regional success rate & median depth ${S.rec}</h3>${byD.map(x=>`<div style="margin:9px 0"><div class="row" style="justify-content:space-between"><span><b>${x.d}</b> <span class="muted small">${x.n} bores</span></span><span class="small">${Math.round(x.s*100)}% · median ${Math.round(x.dep)} ft</span></div><div class="bar"><div style="width:${x.s*100}%"></div></div></div>`).join('')}
+ <p class="small muted">From the company's own completed bore records (sample).</p></div></div>
+ <div class="card"><h3>Active jobs</h3>${activeTable()}</div>`};
+function activeTable(){return `<div class="tw"><table><tr><th>Job</th><th>Customer</th><th>Location</th><th>Rig</th><th class="num">Planned</th><th class="num">Current</th><th>Water strikes</th><th>Progress</th><th></th></tr>${ACTIVE.map(a=>`<tr><td><b>${a.id}</b></td><td>${a.cust}<br><span class="small muted">${a.use}</span></td><td>${a.block}, ${a.dist}</td><td>${a.rig}</td><td class="num">${a.planned} ft</td><td class="num">${a.cur} ft</td><td>${a.strikes.length?a.strikes.map(s=>s+' ft').join(', '):pill('None yet','warn')}</td><td style="min-width:110px"><div class="bar"><div style="width:${Math.min(100,a.cur/a.planned*100)}%"></div></div></td><td><button class="btn sec sm" onclick="SEL.ck='${a.id}';go('ai-checkpoint')">Checkpoint</button></td></tr>`).join('')}</table></div>`}
+
+/* ---- ERP views ---- */
+V.enquiries=()=>`<div class="card"><h3>Enquiries & site survey</h3><div class="tw"><table><tr><th>Enquiry</th><th>Customer</th><th>Location</th><th>Purpose</th><th class="num">Target</th><th>Survey</th><th>GPS</th><th>Stage</th><th></th></tr>${ENQ.map(e=>`<tr><td><b>${e.id}</b></td><td>${e.cust}</td><td>${e.block}, ${e.dist}</td><td>${e.use}</td><td class="num">${e.target} ft</td><td>${e.survey}</td><td>${e.gps?pill('Captured','ok'):pill('Missing','bad')}</td><td>${pill(e.stage,'info')}</td><td><button class="btn sm" onclick="runSiteFor('${e.id}')">AI site check</button></td></tr>`).join('')}</table></div></div>
+<div class="card"><h3>Site survey checklist captured on mobile</h3><ul class="clean"><li>GPS location & photos of site, access road and rig entry (rig needs firm access)</li><li>Geophysical / resistivity survey report (upload – OCR + AI extraction)</li><li>Nearby wells: depth, yield, age, distance (customer + own records)</li><li>Purpose, required water quantity, power availability, budget ceiling per foot</li><li>Land ownership / consent and applicable permissions (see Permits & Compliance)</li></ul></div>`;
+function runSiteFor(id){const e=ENQ.find(x=>x.id===id);SEL.site={dist:e.dist,block:e.block,use:e.use,target:e.target,chk:[e.gps,e.survey.includes('done'),false,true,false]};go('ai-site')}
+V.quotes=()=>{const rows=ENQ.filter(e=>e.stage==='Quoted'||e.stage==='Survey done').map(e=>{const q=quoteCalc(e.target,r10(REG[e.dist].ovb[1]+10),e.dist);return{e,q}});
+ return `<div class="card"><h3>Quotations</h3><div class="tw"><table><tr><th>Enquiry</th><th>Customer</th><th class="num">Quoted depth</th><th class="num">Standard price</th><th class="num">AI P50 cost</th><th class="num">AI P80 cost</th><th>AI note</th></tr>${rows.map(({e,q})=>`<tr><td>${e.id}</td><td>${e.cust}</td><td class="num">${e.target} ft</td><td class="num">${inr(q.base)}</td><td class="num">${inr(q.p50)}</td><td class="num">${inr(q.p80)}</td><td class="small">${q.note}</td></tr>`).join('')}</table></div>
+ <p class="small muted">Rates per foot follow the depth slab table (editable in Cost & Quotation AI). Extra depth beyond the quoted limit is billed per slab only after customer consent at a Depth Checkpoint.</p></div>`};
+V.jobs=()=>`<div class="card"><h3>Active drilling jobs</h3>${activeTable()}</div><div class="card"><h3>Recently completed bores ${S.rec}</h3><div class="tw"><table><tr><th>Job</th><th>Date</th><th>Customer</th><th>Location</th><th class="num">Depth</th><th>Strikes</th><th class="num">Yield (LPH)</th><th>Outcome</th><th class="num">Quote</th><th class="num">Actual</th><th></th></tr>${DONE.slice(-15).reverse().map(j=>`<tr><td><b>${j.id}</b></td><td>${fmtD(j.date)}</td><td>${j.cust}</td><td>${j.block}, ${j.dist}</td><td class="num">${j.depth} ft</td><td>${j.strikes.join(', ')||'–'}</td><td class="num">${j.yld?j.yld.toLocaleString('en-IN'):'–'}</td><td>${outPill(j.outcome)}</td><td class="num">${inr(j.quote)}</td><td class="num">${inr(j.actual)}</td><td><button class="btn sec sm" onclick="SEL.bore='${j.id}';go('ai-borelog')">Bore log</button></td></tr>`).join('')}</table></div></div>`;
+const outPill=o=>pill(o,o==='Success'?'ok':o==='Dry'?'bad':'warn');
+V.rigs=()=>`<div class="card"><h3>Rigs & fleet</h3><div class="tw"><table><tr><th>Rig</th><th>Type</th><th>Status</th><th>Current job</th><th class="num">Engine hrs since service</th><th class="num">Compressor hrs</th><th class="num">Hammer ft since rebuild</th><th>AI risk</th></tr>${RIGS.map(r=>{const s=rigRisk(r);const a=ACTIVE.find(x=>x.rig===r.id);return `<tr><td><b>${r.id}</b></td><td>${r.type}</td><td>${pill(r.status,r.status==='Drilling'?'ok':r.status==='Idle'?'grey':'warn')}</td><td>${a?a.id+' · '+a.block:'–'}</td><td class="num">${r.eng}</td><td class="num">${r.comp}</td><td class="num">${r.ham.toLocaleString('en-IN')}</td><td>${pill(s.score+' '+s.band,s.c)}</td></tr>`}).join('')}</table></div></div>
+<div class="card"><h3>Rig assignment suggestion ${S.est}</h3><p>Idle rig <b>R-05</b> (800 ft class) suits <b>ENQ-26-0420</b> (Bodinayakanur, 400 ft domestic) – depth within rig class. Deeper enquiries (1,000 ft+) should go to 1,500 ft class rigs after current jobs close.</p><p class="small muted">Phase 2: optimisation by distance, rig depth class, crew availability and job priority.</p></div>`;
+V.inventory=()=>`<div class="card"><h3>Inventory & consumables – AI days of cover</h3><div class="tw"><table><tr><th>Item</th><th class="num">Stock</th><th class="num">Reorder level</th><th class="num">Use per 1,000 ft</th><th class="num">Days of cover</th><th>AI suggestion</th></tr>${INV.map(x=>{const day=x.per1k*FLEET_FT_DAY/1000;const dc=x.stock/day;return `<tr><td>${x.item}</td><td class="num">${x.stock.toLocaleString('en-IN')} ${x.uom}</td><td class="num">${x.reorder.toLocaleString('en-IN')}</td><td class="num">${x.per1k}</td><td class="num">${dc.toFixed(1)}</td><td>${dc<7||x.stock<=x.reorder?pill('Reorder now','bad'):dc<14?pill('Plan reorder','warn'):pill('OK','ok')}</td></tr>`}).join('')}</table></div><p class="small muted">Consumption per 1,000 ft is learned from issue entries against bore logs; hard-rock months raise bit and hammer consumption. Fleet average ${FLEET_FT_DAY} ft/day (sample).</p></div>`;
+V.billing=()=>`<div class="card"><h3>Invoices & collections</h3><div class="tw"><table><tr><th>Invoice</th><th>Job</th><th>Customer</th><th class="num">Amount (incl. tax)</th><th class="num">Received</th><th class="num">Balance</th><th>Due</th><th>Status</th></tr>${INVOICES.map(i=>{const b=i.amt-i.paid;return `<tr><td>${i.no}</td><td>${i.job}</td><td>${i.cust}</td><td class="num">${inr(i.amt)}</td><td class="num">${inr(i.paid)}</td><td class="num">${inr(b)}</td><td>${fmtD(i.due)}</td><td>${b<=0?pill('Paid','ok'):i.age>60?pill(i.age+' d overdue','bad'):i.age>0?pill(i.age+' d overdue','warn'):pill('Not due','grey')}</td></tr>`}).join('')}</table></div><p class="small muted">Tax rate shown as 18% sample – configure per applicable GST classification.</p></div>`;
+V.service=()=>`<div class="card"><h3>Service tickets & AMC</h3><div class="tw"><table><tr><th>Ticket</th><th>Customer</th><th>Borewell</th><th>Issue</th><th>Type</th><th>Status</th><th class="num">Age (days)</th><th></th></tr>${TICKETS.map(t=>`<tr><td>${t.id}</td><td>${t.cust}</td><td>${t.job}</td><td>${t.issue}</td><td>${t.type}</td><td>${pill(t.status,t.status==='Completed'?'ok':t.status==='Open'?'warn':'info')}</td><td class="num">${t.days}</td><td><button class="btn sec sm" onclick="SEL.cust='${t.job}';go('ai-customer')">AI summary</button></td></tr>`).join('')}</table></div></div>`;
+
+/* ---- AI: Site Intelligence ---- */
+V['ai-site']=()=>{const s=SEL.site;const g=REG[s.dist];
+ return banner()+`<div class="card"><h3>New site input</h3><div class="fg">
+ <div><label>District</label><select id="si-d" onchange="siChange()">${Object.keys(REG).map(d=>`<option ${d===s.dist?'selected':''}>${d}</option>`).join('')}</select></div>
+ <div><label>Block</label><select id="si-b">${g.blocks.map(b=>`<option ${b===s.block?'selected':''}>${b}</option>`).join('')}</select></div>
+ <div><label>Purpose</label><select id="si-u">${['Agriculture','Domestic','Industrial'].map(u=>`<option ${u===s.use?'selected':''}>${u}</option>`).join('')}</select></div>
+ <div><label>Customer target depth (ft)</label><input id="si-t" type="number" value="${s.target}"></div></div>
+ <div class="chk" style="margin-top:10px"><label style="color:var(--mut)">Survey information available</label>${['GPS coordinates captured','Geophysical / resistivity survey report','Nearby well data (depth, yield, age)','Rig access confirmed','Power / water requirement confirmed'].map((t,i)=>`<label><input type="checkbox" class="si-c" ${s.chk[i]?'checked':''}> ${t}</label>`).join('')}</div>
+ <div style="margin-top:10px"><button class="btn" onclick="siRun()">Run AI site assessment</button></div></div><div id="si-out"></div>`};
+function siChange(){const d=document.getElementById('si-d').value;document.getElementById('si-b').innerHTML=REG[d].blocks.map(b=>`<option>${b}</option>`).join('')}
+function siRun(){const s=SEL.site;s.dist=document.getElementById('si-d').value;s.block=document.getElementById('si-b').value;s.use=document.getElementById('si-u').value;s.target=+document.getElementById('si-t').value||0;s.chk=[...document.querySelectorAll('.si-c')].map(c=>c.checked);
+ const pool=DONE.filter(j=>j.gps);let comp=pool.filter(j=>j.block===s.block),scope='block '+s.block;if(comp.length<6){comp=pool.filter(j=>j.dist===s.dist);scope='district '+s.dist+' (block has <6 records)'}
+ const n=comp.length,succ=comp.filter(j=>j.outcome==='Success'),low=comp.filter(j=>j.outcome==='Low yield'),dry=comp.filter(j=>j.outcome==='Dry');
+ const fs=comp.filter(j=>j.strikes.length).map(j=>j.strikes[0]);const fd=succ.map(j=>j.depth);const yl=succ.map(j=>j.yld);
+ const conf=n>=12?['High','ok']:n>=5?['Medium','warn']:['Low','bad'];
+ const p25=pct(fd,.25),p75=pct(fd,.75),p90=pct(fd,.9);const cas=r10(med(comp.map(j=>j.ovb))+10);
+ const missing=['GPS coordinates','Geophysical / resistivity survey','Nearby well data','Rig access','Power / water requirement'].filter((x,i)=>!s.chk[i]);
+ const warns=[];if(s.target<pct(fs,.25))warns.push(`Target ${s.target} ft is shallower than 75% of recorded first water strikes here (P25 ${Math.round(pct(fs,.25))} ft). Discuss realistic depth before quoting.`);
+ if(s.target>p90)warns.push(`Target ${s.target} ft is deeper than 90% of successful bores here (P90 ${Math.round(p90)} ft). Confirm reason (survey indication / customer request) and agree a stop rule.`);
+ if(dry.length/n>.3)warns.push(`Dry-bore rate is ${Math.round(dry.length/n*100)}% in comparable records – insist on a geophysical survey and depth checkpoints.`);
+ const sim=[...comp].sort((a,b)=>Math.abs(a.depth-s.target)-Math.abs(b.depth-s.target)).slice(0,8);
+ document.getElementById('si-out').innerHTML=`<div class="grid g4"><div class="kpi"><small>Comparable bores (${scope})</small><b>${n}</b><i>Confidence: ${pill(conf[0],conf[1])}</i></div>
+ <div class="kpi"><small>Outcomes ${S.rec}</small><b>${Math.round(succ.length/n*100)}% success</b><i>${Math.round(low.length/n*100)}% low yield · ${Math.round(dry.length/n*100)}% dry</i></div>
+ <div class="kpi"><small>First water strike ${S.rec}</small><b>${Math.round(med(fs))} ft</b><i>P25–P75: ${Math.round(pct(fs,.25))}–${Math.round(pct(fs,.75))} ft</i></div>
+ <div class="kpi"><small>Yield of successful bores ${S.rec}</small><b>${Math.round(med(yl)).toLocaleString('en-IN')} LPH</b><i>Range ${Math.min(...yl).toLocaleString('en-IN')}–${Math.max(...yl).toLocaleString('en-IN')}</i></div></div>
+ <div class="grid g2" style="margin-top:14px"><div class="card"><h3>Preliminary depth & cost scenario ${S.est}</h3><table>
+ <tr><th>Scenario</th><th class="num">Depth</th><th class="num">Estimated cost</th></tr>
+ <tr><td>Optimistic (P25 of successful depths)</td><td class="num">${ftm(r10(p25))}</td><td class="num">${inr(stdCost(r10(p25),cas))}</td></tr>
+ <tr><td><b>Likely (median)</b></td><td class="num"><b>${ftm(r10(med(fd)))}</b></td><td class="num"><b>${inr(stdCost(r10(med(fd)),cas))}</b></td></tr>
+ <tr><td>Conservative (P75)</td><td class="num">${ftm(r10(p75))}</td><td class="num">${inr(stdCost(r10(p75),cas))}</td></tr>
+ <tr><td>Customer target</td><td class="num">${ftm(s.target)}</td><td class="num">${inr(stdCost(s.target,cas))}</td></tr></table>
+ <p class="small muted">Casing assumed ${cas} ft (median overburden + 10 ft). Suggested checkpoints: ${[Math.round(pct(fs,.5)/50)*50,r50(p75),r50(p90)].filter((v,i,a)=>a.indexOf(v)===i).join(' ft, ')} ft.</p></div>
+ <div class="card"><h3>AI observations ${S.ai}</h3>${warns.length?warns.map(w=>`<div class="adv warn" style="margin-top:6px">${w}</div>`).join(''):'<div class="adv ok">Target depth is within the recorded range for comparable bores.</div>'}
+ <h4>Missing survey information</h4>${missing.length?`<ul class="clean">${missing.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="small">None – all key inputs captured.</p>'}
+ <h4>External datasets</h4><p class="small">${S.ext} Groundwater level / aquifer / geology layers – <b>not connected in demo</b>. In production, show source name & date for each layer.</p></div></div>
+ <div class="card"><h3>Most similar recorded bores ${S.rec}</h3><div class="tw"><table><tr><th>Job</th><th>Date</th><th>Block</th><th>Purpose</th><th class="num">Depth</th><th class="num">Overburden</th><th>Strikes</th><th class="num">Yield LPH</th><th>Outcome</th></tr>${sim.map(j=>`<tr><td><a href="#ai-borelog" onclick="SEL.bore='${j.id}'">${j.id}</a></td><td>${fmtD(j.date)}</td><td>${j.block}</td><td>${j.use}</td><td class="num">${j.depth} ft</td><td class="num">${j.ovb} ft</td><td>${j.strikes.join(', ')||'–'}</td><td class="num">${j.yld?j.yld.toLocaleString('en-IN'):'–'}</td><td>${outPill(j.outcome)}</td></tr>`).join('')}</table></div></div>
+ <div class="banner blue">Recommendation status: <b>AI-generated preliminary assessment – requires expert review.</b> Not a groundwater guarantee and not a substitute for a qualified hydrogeological assessment. Underground conditions are never invented: every figure above is either a recorded observation or a labelled estimate.</div>`}
+AFTER['ai-site']=()=>siRun();
+
+/* ---- AI: Depth Checkpoint ---- */
+V['ai-checkpoint']=()=>{const a=ACTIVE.find(x=>x.id===SEL.ck)||ACTIVE[2];SEL.ck=a.id;
+ return banner()+`<div class="card"><h3>Checkpoint input</h3><div class="fg">
+ <div><label>Active job</label><select id="ck-j" onchange="SEL.ck=this.value;route()">${ACTIVE.map(x=>`<option ${x.id===a.id?'selected':''} value="${x.id}">${x.id} · ${x.block}</option>`).join('')}</select></div>
+ <div><label>Planned depth (ft)</label><input id="ck-p" type="number" value="${a.planned}"></div>
+ <div><label>Current depth (ft)</label><input id="ck-c" type="number" value="${a.cur}"></div>
+ <div><label>Water strikes so far (ft, comma)</label><input id="ck-s" value="${a.strikes.join(', ')}"></div>
+ <div><label>Current discharge estimate (LPH)</label><input id="ck-q" type="number" value="${a.strikes.length?1200:0}"></div>
+ <div><label>Required yield (LPH)</label><input id="ck-r" type="number" value="${a.use==='Agriculture'?2500:a.use==='Industrial'?4000:800}"></div>
+ <div><label>Customer budget ceiling (₹)</label><input id="ck-b" type="number" value="${Math.round(stdCost(a.planned+100,a.cas)/1000)*1000}"></div>
+ <div><label>Next decision step (ft)</label><input id="ck-n" type="number" value="100"></div></div>
+ <div style="margin-top:10px"><button class="btn" onclick="ckRun()">Assess checkpoint</button></div></div><div id="ck-out"></div>
+ <div class="card"><h3>Decision audit log</h3><div id="ck-audit"></div></div>`};
+function ckRun(){const a=ACTIVE.find(x=>x.id===SEL.ck);const P=+val('ck-p'),C=+val('ck-c'),Q=+val('ck-q'),Rq=+val('ck-r'),B=+val('ck-b'),N=+val('ck-n')||100;const st=val('ck-s').split(',').map(x=>+x.trim()).filter(Boolean);
+ const pool=DONE.filter(j=>j.dist===a.dist);const reached=pool.filter(j=>j.depth>C&&!j.strikes.some(s=>s<=C));const found=reached.filter(j=>j.strikes.some(s=>s>C&&s<=C+N)&&j.outcome!=='Dry');
+ const p=reached.length?found.length/reached.length:null;const costNow=stdCost(C,a.cas),costNext=stdCost(C+N,a.cas),inc=costNext-costNow;
+ let adv,c;if(Q>=Rq){adv=`Required yield appears met (${Q} ≥ ${Rq} LPH). Suggest: stop drilling, flush, and run a pump test to confirm.`;c='ok'}
+ else if(costNext>B){adv=`Next ${N} ft would take cost to ${inr(costNext)}, above the customer ceiling ${inr(B)}. Suggest: pause and take written customer consent before continuing, or stop.`;c='bad'}
+ else if(p!==null&&p<.15&&C>=P){adv=`Low historical chance (${Math.round(p*100)}%) of a new strike in the next ${N} ft, and planned depth reached. Suggest: review with customer and site expert – stopping is reasonable.`;c='bad'}
+ else if(p!==null&&p<.25){adv=`Historical chance of a strike in the next ${N} ft is ${Math.round(p*100)}%. Suggest: review with customer before continuing; record decision.`;c='warn'}
+ else{adv=`Continue to ${C+N} ft and re-check. Historical chance of a strike in the next ${N} ft: ${p===null?'insufficient data':Math.round(p*100)+'%'}.`;c='ok'}
+ document.getElementById('ck-out').innerHTML=`<div class="grid g4"><div class="kpi"><small>Cost to date (standard rates)</small><b>${inr(costNow)}</b><i>${C} ft drilled</i></div><div class="kpi"><small>Cost of next ${N} ft</small><b>${inr(inc)}</b><i>Slab rate ${drillCost(C+N).rows.slice(-1)[0].rate} ₹/ft</i></div><div class="kpi"><small>Comparable bores that reached ${C} ft dry ${S.rec}</small><b>${reached.length}</b><i>${a.dist} district</i></div><div class="kpi"><small>Of those, struck water in next ${N} ft ${S.est}</small><b>${p===null?'n/a':Math.round(p*100)+'%'}</b><i>${found.length} of ${reached.length}${reached.length<5?' · low confidence':''}</i></div></div>
+ <div class="card" style="margin-top:14px"><h3>AI advisory ${S.ai}</h3><div class="adv ${c}">${adv}</div><p class="small muted" style="margin-top:8px">Water strikes recorded: ${st.length?st.join(', ')+' ft':'none'}. The AI does not decide depth. The site engineer records the decision and the customer's consent for extra depth.</p>
+ <div class="row" style="margin-top:8px"><button class="btn ok" onclick="ckDecide('Continue to ${C+N} ft')">Approve: continue to ${C+N} ft</button><button class="btn sec" onclick="ckDecide('Pause – customer review at ${C} ft')">Pause for customer review</button><button class="btn bad" onclick="ckDecide('Stop at ${C} ft')">Stop drilling</button></div></div>`;renderAudit()}
+function ckDecide(t){AUDIT.unshift({t:new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}),who:'Site Engineer (demo user)',act:SEL.ck+': '+t,det:'AI advisory shown; consent reference required for extra depth'});renderAudit();toast('Decision recorded in audit log')}
+function renderAudit(){const e=document.getElementById('ck-audit');if(e)e.innerHTML=`<table><tr><th>Time</th><th>By</th><th>Decision</th><th>Note</th></tr>${AUDIT.map(a=>`<tr><td>${a.t}</td><td>${a.who}</td><td><b>${a.act}</b></td><td class="small">${a.det}</td></tr>`).join('')}</table>`}
+const val=id=>document.getElementById(id).value;
+AFTER['ai-checkpoint']=()=>ckRun();
+
+/* ---- AI: Bore log ---- */
+V['ai-borelog']=()=>{const j=JOBS.find(x=>x.id===SEL.bore)||DONE[DONE.length-1];SEL.bore=j.id;
+ const peers=DONE.filter(x=>x.dist===j.dist&&x.id!==j.id);const pOvb=med(peers.map(x=>x.ovb)),pStr=med(peers.filter(x=>x.strikes.length).map(x=>x.strikes[0]));
+ const frac=j.log.filter(l=>l.form==='Fractured gneiss');const hard=j.log.filter(l=>l.form==='Hard granite gneiss').reduce((s,l)=>s+l.to-l.from,0);
+ const notes=[];notes.push(`Overburden (soil + weathered) ${j.ovb} ft vs district median ${Math.round(pOvb)} ft.`);
+ if(j.cas<j.ovb+5)notes.push(`⚠ Casing ${j.cas} ft is less than overburden + 5 ft – risk of caving; verify casing record.`);else notes.push(`Casing ${j.cas} ft covers overburden.`);
+ notes.push(`${frac.length} fractured zone(s): ${frac.map(l=>l.from+'–'+l.to+' ft').join(', ')||'none'}.`);
+ notes.push(j.strikes.length?`First strike at ${j.strikes[0]} ft vs district median ${Math.round(pStr)} ft (${j.strikes[0]<pStr?'shallower':'deeper'}).`:'No water strike recorded – include in dry-bore pattern analysis.');
+ notes.push(`Hard rock ${Math.round(hard/j.depth*100)}% of bore length; diesel ${j.diesel} L (${(j.diesel/j.depth).toFixed(2)} L/ft).`);
+ if(!j.pump&&j.outcome!=='Dry')notes.push('⚠ Pump test not recorded – yield is a field estimate only.');
+ return banner()+`<div class="card"><div class="row"><div style="min-width:260px"><label>Borewell</label><select onchange="SEL.bore=this.value;route()">${DONE.slice().reverse().map(x=>`<option value="${x.id}" ${x.id===j.id?'selected':''}>${x.id} · ${x.block} · ${x.outcome}</option>`).join('')}</select></div></div></div>
+ <div><div class="card"><h3>Depth-wise bore log ${S.rec}</h3><div class="row" style="margin-bottom:8px">${pill(j.outcome,j.outcome==='Success'?'ok':j.outcome==='Dry'?'bad':'warn')}<span class="small">${j.cust} · ${j.block}, ${j.dist} · ${fmtD(j.date)} · Rig ${j.rig}</span></div>
+ <div style="display:flex;gap:14px"><div>${boreSvg(j)}</div><div class="tw" style="flex:1"><table class="log"><tr><th>From–To (ft)</th><th>Formation</th><th class="num">ft/hr</th><th class="num">Diesel L</th><th>Observation</th></tr>${j.log.map(l=>`<tr><td>${l.from}–${l.to}</td><td class="form">${l.form}</td><td class="num">${l.rate}</td><td class="num">${l.diesel}</td><td class="small">${l.obs.startsWith('Water')?'💧 <b>'+l.obs+'</b>':l.obs}</td></tr>`).join('')}</table></div></div></div>
+ <div class="card"><h3>Geological pattern summary ${S.ai}</h3><ul class="clean">${notes.map(n=>`<li>${n}</li>`).join('')}</ul>
+ <h4>Regional pattern (${j.dist}) ${S.est}</h4><p class="small">Successful bores here usually strike water in a fractured gneiss zone below the weathered layer; ${Math.round(peers.filter(x=>x.strikes.length>1).length/peers.length*100)}% recorded a second strike. Pattern statements are statistics from own records, not geological interpretation.</p>
+ <h4>Data standard used</h4><p class="small">Every 10–20 ft or formation change: depth from/to, formation (pick list), cuttings colour/photo, penetration rate, air/water return, strikes with estimated discharge, diesel and hammer/bit used.</p></div></div>`};
+function boreSvg(j){const H=360,W=70,sc=H/j.depth;const col={'Topsoil':'#c98d5b','Weathered rock':'#d8b98a','Fractured gneiss':'#7fa7c4','Hard granite gneiss':'#6f7a86'};
+ return `<svg width="${W+40}" height="${H+20}" viewBox="0 0 ${W+40} ${H+20}">${j.log.map(l=>`<rect x="30" y="${l.from*sc+5}" width="${W-30}" height="${Math.max(1,(l.to-l.from)*sc)}" fill="${col[l.form]}"><title>${l.from}-${l.to} ft ${l.form}</title></rect>`).join('')}${j.strikes.map(s=>`<line x1="24" x2="${W+4}" y1="${s*sc+5}" y2="${s*sc+5}" stroke="#0e9fb8" stroke-width="2.5"/><text x="${W+6}" y="${s*sc+9}" font-size="10" fill="#0b6e99">${s}</text>`).join('')}${[0,.25,.5,.75,1].map(f=>`<text x="0" y="${f*H+9}" font-size="9" fill="#5b6b80">${Math.round(f*j.depth)}</text>`).join('')}</svg>`}
+
+/* ---- AI: Anomaly ---- */
+V['ai-anomaly']=()=>banner()+`<div class="card"><h3>Daily drilling log check</h3><div class="tw"><table><tr><th>Date</th><th>Job / Rig</th><th>Formation</th><th class="num">Feet</th><th class="num">Hours</th><th class="num">ft/hr (exp.)</th><th class="num">Diesel L/ft (exp.)</th><th>AI flags</th></tr>${DAILY.map(x=>`<tr><td>${x.d}</td><td>${x.job}<br><span class="small muted">${x.rig}</span></td><td>${x.form}</td><td class="num">${x.ft}</td><td class="num">${x.hrs}</td><td class="num">${x.rate.toFixed(1)} <span class="muted">(${x.eRate})</span></td><td class="num">${x.lpf.toFixed(2)} <span class="muted">(${x.eL.toFixed(2)})</span></td><td>${x.flags.length?x.flags.map(f=>`<div style="margin:2px 0">${pill(f[1]==='bad'?'High':'Check',f[1])} <span class="small">${f[0]}</span></div>`).join(''):pill('Normal','ok')}</td></tr>`).join('')}</table></div></div>
+<div class="card"><h3>How expected values are set ${S.est}</h3><table><tr><th>Formation</th><th class="num">Expected ft/hr</th><th class="num">Expected diesel L/ft</th></tr>${Object.keys(FORM).map(f=>`<tr><td>${f}</td><td class="num">${FORM[f].rate}</td><td class="num">${expL(f).toFixed(2)}</td></tr>`).join('')}</table><p class="small muted">Demo baseline: rig + compressor ≈ ${DIESEL_LPH} L/hr. In production the baseline is learned per rig and formation from own logs, and flags feed the Exception Monitor. Flags are prompts to verify – never accusations.</p></div>`;
+
+/* ---- AI: Cost ---- */
+function quoteCalc(d,cas,dist,extra=0){const base=stdCost(d,cas)+extra;const hist=DONE.filter(j=>j.dist===dist);const ratios=hist.map(j=>j.actual/j.quote);const p50=base*Math.max(1,med(ratios)),p80=base*Math.max(1,pct(ratios,.8));
+ const over=hist.filter(j=>j.depth>j.planned).length/hist.length;return{base,p50,p80,ratios,over,note:`${Math.round(over*100)}% of ${dist} bores went deeper than planned; median actual/quote ${med(ratios).toFixed(2)}×`}}
+V['ai-cost']=()=>banner()+`<div class="grid g2"><div class="card"><h3>Quotation inputs</h3><div class="fg">
+<div><label>District</label><select id="qc-d">${Object.keys(REG).map(d=>`<option>${d}</option>`).join('')}</select></div>
+<div><label>Quoted depth (ft)</label><input id="qc-dep" type="number" value="800"></div>
+<div><label>Casing length (ft)</label><input id="qc-c" type="number" value="60"></div>
+<div><label>Casing rate (₹/ft)</label><input id="qc-cr" type="number" value="${CASING_RATE}"></div>
+<div><label>Distance from base (km)</label><input id="qc-km" type="number" value="45"></div>
+<div><label>Transport ₹/km (rig + support)</label><input id="qc-kr" type="number" value="90"></div>
+<div><label>Tax %</label><input id="qc-g" type="number" value="18"></div></div>
+<h4>Depth slab rates (₹ per foot) – editable</h4><div class="fg" id="qc-slabs">${SLABS.map((s,i)=>`<div><label>${i?SLABS[i-1][0]+1:0}–${s[0]>9999?'above':s[0]} ft</label><input type="number" value="${s[1]}" data-i="${i}"></div>`).join('')}</div>
+<div style="margin-top:10px"><button class="btn" onclick="qcRun()">Calculate quote</button></div></div><div id="qc-out"></div></div>`;
+function qcRun(){document.querySelectorAll('#qc-slabs input').forEach(e=>SLABS[+e.dataset.i][1]=+e.value);const d=+val('qc-dep'),cas=+val('qc-c'),cr=+val('qc-cr'),km=+val('qc-km'),kr=+val('qc-kr'),g=+val('qc-g'),dist=val('qc-d');
+ const dc=drillCost(d);const casing=cas*cr,trans=km*2*kr;const sub=dc.c+casing+MOB+FLUSH+trans;const q=quoteCalc(d,cas,dist,trans+casing-cas*CASING_RATE);const tax=sub*g/100;
+ const txt=`Borewell quotation – ${dist}\nDepth: ${d} ft (${m(d)} m), DTH drilling\n${dc.rows.map(r=>`  ${r.from}-${r.to} ft @ ₹${r.rate}/ft = ${inr(r.amt)}`).join('\n')}\nCasing ${cas} ft @ ₹${cr}/ft = ${inr(casing)}\nMobilisation ${inr(MOB)} · Flushing ${inr(FLUSH)} · Transport ${inr(trans)}\nSub-total ${inr(sub)} + tax ${g}% ${inr(tax)} = ${inr(sub+tax)}\nDepth beyond ${d} ft only with your written consent, at the slab rate for that depth.\nWater availability and yield cannot be guaranteed.`;
+ document.getElementById('qc-out').innerHTML=`<div class="card"><h3>Quote breakdown</h3><table><tr><th>Line</th><th class="num">Amount</th></tr>${dc.rows.map(r=>`<tr><td>${r.from}–${r.to} ft @ ₹${r.rate}/ft</td><td class="num">${inr(r.amt)}</td></tr>`).join('')}<tr><td>Casing ${cas} ft @ ₹${cr}</td><td class="num">${inr(casing)}</td></tr><tr><td>Mobilisation + flushing</td><td class="num">${inr(MOB+FLUSH)}</td></tr><tr><td>Transport ${km} km × 2</td><td class="num">${inr(trans)}</td></tr><tr><td><b>Sub-total</b></td><td class="num"><b>${inr(sub)}</b></td></tr><tr><td>Tax ${g}%</td><td class="num">${inr(tax)}</td></tr><tr><td><b>Total</b></td><td class="num"><b>${inr(sub+tax)}</b></td></tr></table>
+ <h4>Cost intelligence ${S.est}</h4><div class="grid g2"><div class="kpi"><small>P50 expected cost (pre-tax)</small><b>${inr(q.p50)}</b></div><div class="kpi"><small>P80 – budget to discuss</small><b>${inr(q.p80)}</b></div></div><p class="small">${q.note}. Tell the customer the P80 figure as the realistic upper budget, and agree the checkpoint depths now.</p>
+ <div class="row"><button class="btn sec sm" onclick='copyText(${JSON.stringify(txt)})'>Copy quote text</button></div></div>`}
+AFTER['ai-cost']=()=>qcRun();
+
+/* ---- AI: Rig risk ---- */
+function rigRisk(r){const why=[];let sc=0;const e=r.eng/250,c=r.comp/500,h=r.ham/6000,b=r.bit/1500;
+ sc+=Math.min(30,e*30);if(e>.85)why.push(`Engine ${r.eng} h of 250 h service interval`);sc+=Math.min(25,c*25);if(c>.85)why.push(`Compressor ${r.comp} h of 500 h interval`);
+ sc+=Math.min(20,h*20);if(h>.9)why.push(`Hammer ${r.ham.toLocaleString('en-IN')} ft – rebuild due ~6,000 ft`);sc+=Math.min(10,b*10);if(b>.9)why.push('Bit near end of life – check buttons/gauge');
+ if(r.trend<-10){sc+=15;why.push(`Penetration down ${-r.trend}% vs 30-day average in same formation`)}
+ sc=Math.round(Math.min(100,sc));const band=sc>=70?'High':sc>=45?'Medium':'Low';return{score:sc,band,c:sc>=70?'bad':sc>=45?'warn':'ok',why:why.length?why:['Within service intervals']}}
+V['ai-rig']=()=>banner()+`<div class="card"><h3>Maintenance risk by rig</h3><div class="tw"><table><tr><th>Rig</th><th>Status</th><th>Risk</th><th>Drivers</th><th>Suggested action</th></tr>${RIGS.map(r=>{const s=rigRisk(r);return `<tr><td><b>${r.id}</b><br><span class="small muted">${r.type}</span></td><td>${r.status}</td><td style="min-width:120px">${pill(s.score+' · '+s.band,s.c)}<div class="bar" style="margin-top:5px"><div style="width:${s.score}%;background:${s.c==='bad'?'#c0392b':s.c==='warn'?'#b7791f':'#1a8a5a'}"></div></div></td><td class="small">${s.why.join('<br>')}</td><td class="small">${s.band==='High'?'Schedule service before next job; check hammer & compressor pressure':s.band==='Medium'?'Plan service within 1 week; monitor penetration':'No action'}</td></tr>`}).join('')}</table></div>
+<p class="small muted">Score = weighted use against service intervals (engine 30, compressor 25, hammer 20, bit 10) + 15 if penetration trend drops >10%. Phase 2 replaces weights with a model trained on own breakdown history (telematics / hour-meter feed).</p></div>`;
+
+/* ---- AI: Field Copilot ---- */
+const FS1=`Rig R-01, job BW-26-118 Oddanchatram. Start 7:30 end 18:00. Drilled 420 to 610 ft. 420-480 weathered rock brown cuttings, 480-560 fractured granite, water at 545 ft approx 1.5 inch, 560-610 hard grey granite. Diesel 310 L. Hammer pressure low after 590. Casing 60 ft done yesterday.`;
+const FS2=`R-04 BW-26-121 Melur. start 8.00 end 5.30 pm. drilled 180 to 330 ft. 180-240 hard paarai grey, 240-300 udaintha paarai, thanni at 265 ft 1 inch, 300-330 hard paarai. diesel 260 L. compressor overheat 2 times.`;
+V['ai-field']=()=>banner('Demo uses a rule-based parser. Production: speech-to-text (Tamil / English) + LLM extraction into the same fields, with the engineer confirming before save.')+`<div class="grid g2"><div class="card"><h3>Field notes (typed or voice transcript)</h3><textarea id="fc-t">${FS1}</textarea><div class="row" style="margin-top:8px"><button class="btn" onclick="fcRun()">Generate structured report</button><button class="btn sec sm" onclick="fcLoad(1)">Sample 1 (English)</button><button class="btn sec sm" onclick="fcLoad(2)">Sample 2 (Tamil-English mix)</button></div></div><div id="fc-out"></div></div>`;
+function fcLoad(n){document.getElementById('fc-t').value=n===1?FS1:FS2;fcRun()}
+function normForm(t){t=t.toLowerCase();if(/fractur|udaintha|broken/.test(t))return'Fractured gneiss';if(/weather|murrum/.test(t))return'Weathered rock';if(/soil|mann/.test(t))return'Topsoil';if(/hard|massive|granite|paarai/.test(t))return'Hard granite gneiss';return null}
+function fcRun(){const t=document.getElementById('fc-t').value;const g=(re)=>{const x=t.match(re);return x?x:null};
+ const rig=g(/\b(R-\d{2})\b/i),job=g(/\b(BW-\d{2}-\d{3})\b/i);const tm=g(/start\s*(\d{1,2})[:.](\d{2})\s*(am|pm)?[^]*?end\s*(\d{1,2})[:.](\d{2})\s*(am|pm)?/i);
+ let hrs=null;if(tm){let s=+tm[1]+tm[2]/60,e=+tm[4]+tm[5]/60;if(tm[3]&&tm[3].toLowerCase()==='pm'&&+tm[1]<12)s+=12;if(tm[6]&&tm[6].toLowerCase()==='pm'&&+tm[4]<12)e+=12;if(e<=s)e+=12;hrs=+(e-s).toFixed(2)}
+ const dr=g(/drilled\s*(?:from\s*)?(\d+)\s*(?:ft)?\s*(?:to|-)\s*(\d+)/i);const ints=[];const re=/(\d+)\s*-\s*(\d+)\s*(?:ft)?\s+([a-z][a-z ()]*)/gi;let x;while((x=re.exec(t))){const f=normForm(x[3]);if(f&&!/^bw/i.test(x[3]))ints.push({from:+x[1],to:+x[2],form:f,raw:x[3].trim()})}
+ const ws=[];const wr=/(?:water|thanni)\s*(?:at|@)\s*(\d+)\s*ft(?:[^.,;\n]*?(\d+(?:\.\d+)?)\s*inch)?/gi;while((x=wr.exec(t)))ws.push({d:+x[1],inch:x[2]||null});
+ const dz=g(/diesel\s*(\d+)\s*l/i),cs=g(/casing\s*(\d+)\s*ft/i);const issues=t.split(/[.\n]/).filter(s=>/low|leak|stuck|breakdown|jam|loss|caving|collapse|noise|overheat/i.test(s)).map(s=>s.trim());
+ const ft=dr?dr[2]-dr[1]:null;const conf=[];if(!rig)conf.push('Rig not found');if(!job)conf.push('Job number not found');if(!hrs)conf.push('Working hours not found');if(!dr)conf.push('Drilled range not found');
+ if(dr&&ints.length){const cov=ints.reduce((s,i)=>s+i.to-i.from,0);if(cov!==ft)conf.push(`Formation intervals cover ${cov} ft but drilled ${ft} ft`)}
+ ws.forEach(w=>{if(w.inch)conf.push(`Water at ${w.d} ft reported as "${w.inch} inch" – field estimate; confirm with pump test (LPH)`)});
+ let expD=null;if(ints.length)expD=Math.round(ints.reduce((s,i)=>s+(i.to-i.from)*expL(i.form),0));if(dz&&expD&&+dz[1]>expD*1.25)conf.push(`Diesel ${dz[1]} L vs expected ~${expD} L for these formations – verify`);
+ const report=`DAILY DRILLING REPORT\nRig: ${rig?rig[1]:'?'}   Job: ${job?job[1]:'?'}\nHours: ${hrs??'?'}   Drilled: ${dr?dr[1]+'–'+dr[2]+' ft ('+ft+' ft)':'?'}   Avg rate: ${hrs&&ft?(ft/hrs).toFixed(1)+' ft/hr':'?'}\nFormations:\n${ints.map(i=>`  ${i.from}–${i.to} ft  ${i.form}`).join('\n')||'  ?'}\nWater strikes: ${ws.map(w=>w.d+' ft'+(w.inch?' (~'+w.inch+' inch, field est.)':'')).join(', ')||'none'}\nDiesel: ${dz?dz[1]+' L':'?'}${ft&&dz?' ('+(dz[1]/ft).toFixed(2)+' L/ft)':''}   Casing: ${cs?cs[1]+' ft':'not mentioned'}\nIssues: ${issues.join(' | ')||'none'}`;
+ document.getElementById('fc-out').innerHTML=`<div class="card"><h3>Structured report ${S.ai}</h3><table><tr><th>Field</th><th>Extracted value</th></tr><tr><td>Rig / Job</td><td>${rig?rig[1]:'–'} / ${job?job[1]:'–'}</td></tr><tr><td>Hours</td><td>${hrs??'–'}</td></tr><tr><td>Drilled</td><td>${dr?dr[1]+' → '+dr[2]+' ft ('+ft+' ft)':'–'}</td></tr><tr><td>Formations</td><td>${ints.map(i=>`${i.from}–${i.to} ft: <b>${i.form}</b> <span class="small muted">("${esc(i.raw)}")</span>`).join('<br>')||'–'}</td></tr><tr><td>Water strikes</td><td>${ws.map(w=>'💧 '+w.d+' ft'+(w.inch?' · ~'+w.inch+' inch':'')).join('<br>')||'–'}</td></tr><tr><td>Diesel</td><td>${dz?dz[1]+' L':'–'} ${expD?`<span class="small muted">(expected ~${expD} L)</span>`:''}</td></tr><tr><td>Casing</td><td>${cs?cs[1]+' ft':'–'}</td></tr><tr><td>Issues → maintenance</td><td>${issues.map(i=>pill('Issue','warn')+' '+esc(i)).join('<br>')||'–'}</td></tr></table>
+ <h4>Needs engineer confirmation</h4>${conf.length?`<ul class="clean">${conf.map(c=>`<li>${c}</li>`).join('')}</ul>`:'<p class="small">Nothing – ready to save.</p>'}
+ <div class="row" style="margin-top:8px"><button class="btn ok sm" onclick="toast('Demo: report would be saved as Daily Drilling Log after confirmation')">Confirm & save to bore log</button><button class="btn sec sm" onclick='copyText(document.getElementById("fc-rep").textContent)'>Copy report</button></div><div class="mono" id="fc-rep" style="margin-top:10px">${esc(report)}</div></div>`}
+AFTER['ai-field']=()=>fcRun();
+
+/* ---- AI: Yield ---- */
+V['ai-yield']=()=>banner()+`<div class="grid g2"><div class="card"><h3>Pump test readings</h3><div class="fg">
+<div><label>Static water level (ft below ground)</label><input id="y-s" type="number" value="185"></div>
+<div><label>Pumping rate (LPH)</label><input id="y-q" type="number" value="3600"></div>
+<div><label>Test duration (hours)</label><input id="y-h" type="number" value="4"></div>
+<div><label>Pumping water level at end (ft)</label><input id="y-p" type="number" value="342"></div>
+<div><label>Level after 30 min recovery (ft)</label><input id="y-r1" type="number" value="290"></div>
+<div><label>After 60 min (ft)</label><input id="y-r2" type="number" value="252"></div>
+<div><label>After 120 min (ft)</label><input id="y-r3" type="number" value="221"></div>
+<div><label>Bore depth (ft)</label><input id="y-d" type="number" value="640"></div>
+<div><label>Required supply (LPH)</label><input id="y-req" type="number" value="2500"></div></div>
+<div style="margin-top:10px"><button class="btn" onclick="yRun()">Analyse</button></div></div><div id="y-out"></div></div>`;
+function yRun(){const s=+val('y-s'),q=+val('y-q'),h=+val('y-h'),p=+val('y-p'),r=[+val('y-r1'),+val('y-r2'),+val('y-r3')],d=+val('y-d'),req=+val('y-req');const dd=p-s;const sc=q/dd;const rec=r.map(x=>Math.max(0,Math.min(100,(p-x)/dd*100)));
+ const cls=q<1000?['Low','bad']:q<3000?['Moderate','warn']:['Good','ok'];const slow=rec[2]<70;const safe=slow?q*.7:q*.85;const setD=Math.min(d-20,p+40);
+ const obs=[];obs.push(`Drawdown ${dd} ft at ${q.toLocaleString('en-IN')} LPH → specific capacity ${sc.toFixed(1)} LPH per ft.`);obs.push(`Recovery: ${rec.map((x,i)=>['30','60','120'][i]+' min '+Math.round(x)+'%').join(', ')}.`);
+ obs.push(slow?'Slow recovery (<70% in 2 h) – sustained yield likely lower than the test rate.':'Recovery is reasonable for the test duration.');if(safe<req)obs.push(`Suggested sustainable draw (~${Math.round(safe).toLocaleString('en-IN')} LPH) is below the required ${req.toLocaleString('en-IN')} LPH – discuss storage tank / staggered pumping.`);
+ if(h<4)obs.push('Test shorter than 4 h – treat results as indicative.');
+ document.getElementById('y-out').innerHTML=`<div class="card"><h3>Yield assessment ${S.est}</h3><div class="grid g2"><div class="kpi"><small>Test yield class (sample thresholds)</small><b>${pill(cls[0],cls[1])}</b><i>&lt;1,000 low · 1,000–3,000 moderate · &gt;3,000 good (LPH)</i></div><div class="kpi"><small>Indicative sustainable draw</small><b>${Math.round(safe).toLocaleString('en-IN')} LPH</b><i>${slow?'70%':'85%'} of test rate – rule of thumb, for review</i></div></div>
+ <h4>Observations ${S.ai}</h4><ul class="clean">${obs.map(o=>`<li>${o}</li>`).join('')}</ul>
+ <h4>Pump setting – for expert review</h4><p class="small">Indicative pump setting ≈ ${setD} ft (pumping level + 40 ft, at least 20 ft above bore bottom). Final pump selection and setting by a qualified person.</p>
+ ${recSvg(s,p,r)}</div>`}
+function recSvg(s,p,r){const W=420,H=150,pts=[[0,p],[30,r[0]],[60,r[1]],[120,r[2]]];const y=v=>10+(v-s+10)/(p-s+20)*(H-30),x=t=>40+t/120*(W-60);
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%"><line x1="40" x2="${W-20}" y1="${y(s)}" y2="${y(s)}" stroke="#1a8a5a" stroke-dasharray="4"/><text x="${W-20}" y="${y(s)-4}" font-size="10" text-anchor="end" fill="#1a8a5a">Static ${s} ft</text><polyline fill="none" stroke="#0b6e99" stroke-width="2" points="${pts.map(q=>x(q[0])+','+y(q[1])).join(' ')}"/>${pts.map(q=>`<circle cx="${x(q[0])}" cy="${y(q[1])}" r="3.5" fill="#0b6e99"/><text x="${x(q[0])}" y="${y(q[1])+14}" font-size="9.5" text-anchor="middle" fill="#5b6b80">${q[0]}m · ${q[1]}ft</text>`).join('')}<text x="40" y="${H-2}" font-size="10" fill="#5b6b80">Recovery after pumping stops (water level, ft below ground)</text></svg>`}
+AFTER['ai-yield']=()=>yRun();
+
+/* ---- AI: Exceptions ---- */
+V['ai-exceptions']=()=>{const E=getExceptions();const areas=[...new Set(E.map(e=>e.area))];return banner()+`<div class="grid g4">${['bad','warn'].map(s=>`<div class="kpi"><small>${s==='bad'?'High':'Medium'} severity</small><b>${E.filter(e=>e.sev===s).length}</b></div>`).join('')}<div class="kpi"><small>Areas affected</small><b>${areas.length}</b><i>${areas.join(', ')}</i></div><div class="kpi"><small>Digest</small><b>07:00</b><i>Daily summary to operations head (WhatsApp / email)</i></div></div>
+<div class="card" style="margin-top:14px"><h3>All exceptions</h3><div class="tw"><table><tr><th>Severity</th><th>Area</th><th>Reference</th><th>What needs attention</th><th></th></tr>${E.map(e=>`<tr><td>${pill(e.sev==='bad'?'High':'Medium',e.sev)}</td><td>${e.area}</td><td><b>${esc(e.ref)}</b></td><td>${e.msg}</td><td><button class="btn sec sm" onclick="go('${e.go}')">Open</button></td></tr>`).join('')}</table></div></div>`};
+
+/* ---- AI: Customer assistant ---- */
+V['ai-customer']=()=>{const j=JOBS.find(x=>x.id===SEL.cust)||DONE[5];SEL.cust=j.id;const tk=TICKETS.filter(t=>t.job===j.id);const inv=INVOICES.find(i=>i.job===j.id);
+ const sum=`${j.cust} – borewell ${j.id} at ${j.block}, ${j.dist}. Drilled ${fmtD(j.date)} by rig ${j.rig} to ${j.depth} ft (${m(j.depth)} m), casing ${j.cas} ft. ${j.strikes.length?'Water struck at '+j.strikes.join(' and ')+' ft':'No water strike recorded'}; ${j.yld?'recorded yield about '+j.yld.toLocaleString('en-IN')+' LPH'+(j.pump?' (pump test).':' (field estimate – no pump test on file).'):'outcome: '+j.outcome+'.'} ${tk.length?'Open service: '+tk.map(t=>t.issue+' ('+t.status+')').join('; ')+'.':'No service tickets.'} ${inv?'Invoice '+inv.no+': '+(inv.amt>inv.paid?inr(inv.amt-inv.paid)+' outstanding.':'paid.'):''}`;
+ const reply=tk.length?`Vanakkam ${j.cust.split(' ')[0]}, we have noted the issue "${tk[0].issue}" for your borewell (${j.depth} ft, drilled ${fmtD(j.date)}). Our team will visit on the scheduled date and check yield and pump condition. Your bore record shows water at ${j.strikes.join(', ')||'–'} ft, so we will start with flushing and a yield check. We will share the result after the visit.`:`Vanakkam ${j.cust.split(' ')[0]}, thank you for contacting us about your borewell ${j.id} (${j.depth} ft). Please tell us what you are noticing – yield, water colour or pump – and we will arrange a visit.`;
+ return banner('Demo summary is template-based from ERP records. Production: LLM writes the summary only from retrieved records (RAG) and cites the record it used.')+`<div class="card"><label>Borewell / customer</label><select onchange="SEL.cust=this.value;route()">${DONE.slice().reverse().map(x=>`<option value="${x.id}" ${x.id===j.id?'selected':''}>${x.id} · ${x.cust}</option>`).join('')}</select></div>
+ <div class="grid g2"><div class="card"><h3>Borewell history summary ${S.ai}</h3><p>${sum}</p><p class="small muted">Sources: Job ${j.id}, bore log, ${tk.length?tk.map(t=>t.id).join(', ')+', ':''}${inv?inv.no:''}</p></div>
+ <div class="card"><h3>Suggested reply (WhatsApp / SMS) ${S.ai}</h3><div class="mono">${esc(reply)}</div><div class="row" style="margin-top:8px"><button class="btn sec sm" onclick='copyText(${JSON.stringify(reply)})'>Copy reply</button></div><p class="small muted">Staff edit and send. Tamil version generated in production. Never promise yield recovery.</p></div></div>`};
+
+/* ---- AI: Permits ---- */
+const PERMITS=[['Land ownership / owner consent document','Before survey','All'],['Groundwater authority permission / NOC where the area or use requires it','Before drilling','Configure per state & category of area'],['Industrial / commercial use: extraction permission and metering','Before drilling','Industrial'],['Distance from existing wells, septic tanks and drinking water sources as per local rules','Site survey','All'],['Rig registration, insurance and driver documents valid','Before mobilisation','All'],['Crew safety: PPE, compressor hose checks, toolbox talk','Daily','All'],['Failed / unused bore safely capped and filled as per applicable safety guidelines (child safety)','Same day','Dry bores'],['Completion report & bore log handed to customer; water quality test advised','Handover','All']];
+V['ai-permits']=()=>`<div class="banner blue">Rules differ by state and change over time. This checklist is configurable – the AI only reminds and checks that evidence is attached; it does not give legal advice.</div><div class="card"><h3>Compliance checklist – ${ACTIVE[2].id} (Industrial, Aruppukottai)</h3><div class="tw"><table><tr><th>Requirement</th><th>Stage</th><th>Applies to</th><th>Evidence</th><th>AI check</th></tr>${PERMITS.map((p,i)=>{const ok=i!==1&&i!==2&&i!==6;const na=i===6;return `<tr><td>${p[0]}</td><td>${p[1]}</td><td class="small">${p[2]}</td><td>${na?'–':ok?'📎 Attached':'—'}</td><td>${na?pill('Not yet applicable','grey'):ok?pill('OK','ok'):pill('Missing – block job start','bad')}</td></tr>`}).join('')}</table></div></div>
+<div class="card"><h3>Dry-bore safety rule</h3><p>When a bore is recorded as <b>Dry</b> or abandoned, the system creates a mandatory "Cap & fill" task with photo evidence before the job can be closed. ${DONE.filter(j=>j.outcome==='Dry').length} dry bores in sample history.</p></div>`;
+
+/* ---- AI: Accuracy ---- */
+V['ai-accuracy']=()=>{const rows=[];const sorted=[...DONE].sort((a,b)=>a.date-b.date);sorted.forEach(j=>{if(j.outcome!=='Success')return;const prior=sorted.filter(x=>x.date<j.date&&x.dist===j.dist&&x.outcome==='Success');if(prior.length<3)return;rows.push({j,pred:med(prior.map(x=>x.depth)),pq:j.quote})});
+ const mape=rows.reduce((s,r)=>s+Math.abs(r.pred-r.j.depth)/r.j.depth,0)/rows.length;const cv=DONE.reduce((s,j)=>s+(j.actual-j.quote)/j.quote,0)/DONE.length;
+ const byD=Object.keys(REG).map(d=>{const rr=rows.filter(r=>r.j.dist===d);return{d,n:rr.length,e:rr.length?rr.reduce((s,r)=>s+Math.abs(r.pred-r.j.depth)/r.j.depth,0)/rr.length:null}});
+ const W=440,H=260,mx=Math.max(...rows.map(r=>Math.max(r.pred,r.j.depth)))*1.05,X=v=>40+v/mx*(W-60),Y=v=>H-30-v/mx*(H-50);
+ return `<div class="grid g4"><div class="kpi"><small>Depth forecasts evaluated</small><b>${rows.length}</b><i>Successful bores with ≥3 earlier records</i></div><div class="kpi"><small>Depth error (MAPE)</small><b>${Math.round(mape*100)}%</b><i>Median-of-history baseline</i></div><div class="kpi"><small>Avg cost variance vs quote</small><b>${cv>0?'+':''}${Math.round(cv*100)}%</b><i>All ${DONE.length} completed bores</i></div><div class="kpi"><small>Target before using in quotes</small><b>&lt; 20%</b><i>Set by management</i></div></div>
+ <div class="grid g2" style="margin-top:14px"><div class="card"><h3>Predicted vs actual depth ${S.rec}</h3><svg viewBox="0 0 ${W} ${H}" width="100%"><line x1="${X(0)}" y1="${Y(0)}" x2="${X(mx)}" y2="${Y(mx)}" stroke="#cfd8e3" stroke-dasharray="4"/>${rows.map(r=>`<circle cx="${X(r.pred)}" cy="${Y(r.j.depth)}" r="4" fill="#0e9fb8" opacity=".75"><title>${r.j.id}: predicted ${Math.round(r.pred)} ft, actual ${r.j.depth} ft</title></circle>`).join('')}<text x="${W/2}" y="${H-6}" font-size="11" text-anchor="middle" fill="#5b6b80">Predicted depth (ft)</text><text x="12" y="${H/2}" font-size="11" fill="#5b6b80" transform="rotate(-90 12 ${H/2})" text-anchor="middle">Actual depth (ft)</text>${[0,.5,1].map(f=>`<text x="${X(f*mx)}" y="${H-18}" font-size="9" text-anchor="middle" fill="#8795a8">${Math.round(f*mx)}</text>`).join('')}</svg><p class="small muted">Points on the dashed line = perfect forecast. Each new completed bore is added automatically – the feedback loop.</p></div>
+ <div class="card"><h3>Error by district</h3><table><tr><th>District</th><th class="num">Forecasts</th><th class="num">Depth MAPE</th><th>Use in quotes?</th></tr>${byD.map(b=>`<tr><td>${b.d}</td><td class="num">${b.n}</td><td class="num">${b.e===null?'–':Math.round(b.e*100)+'%'}</td><td>${b.n<5?pill('Not enough data','grey'):b.e<.2?pill('Yes, with review','ok'):pill('Advisory only','warn')}</td></tr>`).join('')}</table>
+ <h4>Feedback captured on every AI output</h4><ul class="clean small"><li>👍 / 👎 + reason from engineer</li><li>Actual vs predicted stored per job (depth, cost, diesel, strike)</li><li>Monthly retraining only after accuracy review</li></ul></div></div>`};
+
+/* ---- Strategy pages ---- */
+V.review=()=>`<div class="card"><h3>Verdict on the proposal</h3><p>The direction is right: <b>one ERP with AI as an intelligence layer</b>, not a separate chatbot, and the safeguards (no water guarantee, no autonomous depth decision, label recorded vs estimated) are correct. The 10 AI modules are kept. Below are the gaps I found and what this build adds.</p></div>
+<div class="grid g2"><div class="card"><h3>✅ Kept from the proposal</h3><ul class="clean"><li>ERP workflows as the foundation; AI across them</li><li>10 AI modules: Site Intelligence, Geological Pattern, Water Strike, Drilling Performance, Cost Predictor, Rig Maintenance, Field Report, Yield, Exception Monitor, Customer Assistant</li><li>Frappe / ERPNext + MariaDB + Python AI services</li><li>Three AI stages: Assistant → Predictive → Advanced</li><li>Human approval for depth & yield decisions</li></ul></div>
+<div class="card"><h3>⚠ Corrections</h3><ul class="clean"><li><b>Example depth:</b> 600 m (~1,970 ft) is extreme for a typical agricultural bore. Demo uses a 1,000 ft target with checkpoints.</li><li><b>Units:</b> Indian borewell work is quoted and recorded <b>per foot</b>. The ERP should use feet as the main unit and show metres alongside.</li><li><b>"Rule-based only" demo:</b> fine for a demo, but the product needs measured accuracy before AI numbers appear in quotes (see Model Accuracy).</li><li><b>Water Strike and Geological Pattern</b> are merged into Site Intelligence + Bore Log Assistant. Same data, fewer screens.</li></ul></div></div>
+<div class="card"><h3>➕ My additions (built in this version)</h3><div class="tw"><table><tr><th>#</th><th>Addition</th><th>Why it matters</th><th>Where</th></tr>
+${[['Phase 0 – data foundation','AI is only as good as the bore logs. Mandatory structured fields: GPS, depth-wise formation, strikes, yield, pump test, diesel, bit/hammer usage, cuttings photo','Bore Log Assistant'],
+['Depth Checkpoint (Go / Pause / Stop)','The costliest live decision is whether to keep drilling. Uses history and cost so far, then records customer consent and the engineer\'s decision','Depth Checkpoint'],
+['Per-foot slab pricing + P50/P80','Matches how borewells are actually priced; the P80 gives the customer a realistic budget','Cost & Quotation AI'],
+['Diesel L/ft by formation','Diesel is a top cost and leakage point; total litres alone hide problems','Anomaly Monitor'],
+['Multilingual voice/notes copilot','Crews speak Tamil-English mix; offline capture, then AI structures it','Field Report Copilot'],
+['Permits & dry-bore safety','Permissions, distance rules, mandatory capping of failed bores with photo proof','Permits & Compliance'],
+['Model accuracy & feedback loop','Predicted vs actual per job, so AI earns trust before it is used commercially','Model Accuracy'],
+['Provenance labels on every output','Recorded / External dataset / Model estimate / AI generated, plus sample size and confidence','All AI screens'],
+['Consumables forecast','Bits, hammers, casing and diesel days-of-cover from feet drilled','Inventory'],
+['Rig assignment suggestion','Match idle rigs to enquiries by depth class and location','Rigs & Fleet'],
+['Decision audit log','Who approved what depth and on what basis – protects the company in disputes','Depth Checkpoint / Governance']].map((r,i)=>`<tr><td>${i+1}</td><td><b>${r[0]}</b></td><td>${r[1]}</td><td><a href="#${{'Bore Log Assistant':'ai-borelog','Depth Checkpoint':'ai-checkpoint','Cost & Quotation AI':'ai-cost','Anomaly Monitor':'ai-anomaly','Field Report Copilot':'ai-field','Permits & Compliance':'ai-permits','Model Accuracy':'ai-accuracy','All AI screens':'ai-site','Inventory':'inventory','Rigs & Fleet':'rigs','Depth Checkpoint / Governance':'governance'}[r[2]]}">${r[2]}</a></td></tr>`).join('')}</table></div></div>
+<div class="grid g2"><div class="card"><h3>🧠 Where to use which AI</h3><table><tr><th>Need</th><th>Technique</th></tr><tr><td>Depth, cost, diesel, maintenance numbers</td><td>Statistics / ML (gradient boosting, quantile models) on own data</td></tr><tr><td>Summaries, reports, customer replies</td><td>LLM with RAG over ERP records only – cites sources, no invented numbers</td></tr><tr><td>Field notes, survey PDFs, invoices</td><td>Speech-to-text + OCR + LLM extraction → user confirms</td></tr><tr><td>Regional comparison, maps</td><td>GIS nearest-neighbour on GPS + verified external layers</td></tr><tr><td>Anomalies</td><td>Baseline per rig/formation + thresholds, later isolation-forest type models</td></tr><tr><td>Cuttings photos (Phase 3)</td><td>Image classification as a <i>suggestion</i> to the logger</td></tr></table></div>
+<div class="card"><h3>💼 Commercial packaging</h3><table><tr><th>Edition</th><th>Includes</th></tr><tr><td><b>Core ERP</b></td><td>Enquiry → survey → quote → job → bore log → billing → service, rigs, inventory, mobile app</td></tr><tr><td><b>AI Assist</b></td><td>Field Copilot, report generation, customer assistant, document extraction, exception digest</td></tr><tr><td><b>AI Predictive</b></td><td>Site Intelligence, Checkpoint, cost P50/P80, rig risk, consumables – enabled once enough history exists in the region (guideline: 150–300 logged bores)</td></tr></table><p class="small muted">Predictive needs data, so sell Core + Assist first; it creates the data Predictive needs.</p></div></div>`;
+V.architecture=()=>`<div class="card"><h3>Technology architecture</h3><div class="tw"><table><tr><th>Layer</th><th>Proposed</th><th>Recommendation</th></tr>
+${[['ERP backend','Frappe / ERPNext','Keep. Build as a custom Frappe app (own DocTypes: Site Survey, Borewell Job, Bore Log Interval, Daily Drilling Log, Pump Test, Depth Checkpoint, Rig Service)'],['Database','MariaDB','Keep. Add vector search (MariaDB vector support or a separate vector store) for RAG over records and documents'],['AI services','Python, LLM APIs, predictive ML','Python service called from Frappe background jobs; scikit-learn / LightGBM quantile models; LLM via API with a switch for a self-hosted model for data-sensitive customers'],['Geological analysis','GIS + verified datasets','Store GPS on every job; nearest-neighbour search; external layers only with source + date shown'],['Maps','GIS mapping and GPS','Leaflet / OpenStreetMap map view of bores coloured by outcome'],['Mobile field app','Offline-first PWA','Keep. Add voice notes, photo capture, sync queue; Tamil + English UI'],['Documents','OCR + AI extraction','Survey reports, delivery challans, diesel bills → extracted fields with confirmation'],['Analytics','ERP reports + predictive models','Add Model Accuracy dashboard and a daily exception digest'],['Messaging','–','WhatsApp Business API templates for customer updates and daily digest'],['Telematics (Phase 3)','–','Engine-hour / GPS feed from rigs to replace manual hour entry']].map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</table></div></div>
+<div class="card"><h3>Revised roadmap</h3><div class="grid g4">
+<div class="phase"><b>Phase 0 · Data foundation</b><p class="small muted">Months 0–3</p><ul class="clean small"><li>Core ERP + mobile bore log</li><li>Mandatory GPS & structured log</li><li>Import old records (Excel / paper via OCR)</li><li>Slab pricing, permits checklist</li></ul><p class="small"><b>Exit:</b> 90% of new jobs fully logged</p></div>
+<div class="phase"><b>Phase 1 · AI Assistant</b><p class="small muted">Months 3–6</p><ul class="clean small"><li>Field Report Copilot (voice, Tamil)</li><li>Report & customer summaries (RAG)</li><li>Document extraction</li><li>Exception digest</li></ul><p class="small"><b>Exit:</b> paperwork time cut, users adopt</p></div>
+<div class="phase"><b>Phase 2 · Predictive</b><p class="small muted">Months 6–12</p><ul class="clean small"><li>Cost P50/P80, Depth Checkpoint</li><li>Diesel & penetration anomalies</li><li>Rig risk, consumables forecast</li><li>Rig assignment</li></ul><p class="small"><b>Exit:</b> depth MAPE &lt; 20% per district</p></div>
+<div class="phase"><b>Phase 3 · Advanced</b><p class="small muted">Months 12+</p><ul class="clean small"><li>GIS regional intelligence</li><li>Verified external geology layers</li><li>Cuttings photo classification</li><li>Telematics integration</li></ul><p class="small"><b>Exit:</b> measurable success-rate improvement</p></div></div></div>`;
+V.governance=()=>`<div class="grid g2"><div class="card"><h3>AI principles</h3><ul class="clean"><li>AI never promises that a borewell will produce water.</li><li>AI never decides drilling depth. It advises; a named person decides and the decision is logged.</li><li>Every AI figure is labelled ${S.rec}${S.ext}${S.est}${S.ai} with sample size and confidence.</li><li>The LLM writes text only from retrieved records; numbers come from calculations, never from the LLM's own knowledge.</li><li>No external geology claims without a named, dated source.</li><li>Customer data stays in the company's ERP; it is never used to train public models. A self-hosted model option is available.</li><li>Low-confidence outputs (fewer than 5 comparables) are shown as "advisory only".</li></ul></div>
+<div class="card"><h3>Responsibility (RACI)</h3><table><tr><th>Decision</th><th>AI</th><th>Site engineer</th><th>Hydrogeologist</th><th>Customer</th></tr><tr><td>Site suitability</td><td>Suggest</td><td>Review</td><td><b>Approve</b></td><td>Informed</td></tr><tr><td>Quoted depth & budget</td><td>Suggest</td><td><b>Approve</b></td><td>Consulted</td><td><b>Agree</b></td></tr><tr><td>Continue beyond quoted depth</td><td>Advise</td><td><b>Decide</b></td><td>Consulted</td><td><b>Consent</b></td></tr><tr><td>Pump selection / setting</td><td>Indicate</td><td>Consulted</td><td><b>Approve</b></td><td>Informed</td></tr><tr><td>Daily log save</td><td>Draft</td><td><b>Confirm</b></td><td>–</td><td>–</td></tr></table></div></div>
+<div class="card"><h3>Decision audit log</h3><div id="ck-audit"></div><p class="small muted">Approvals from the Depth Checkpoint appear here.</p></div>`;
+AFTER.governance=()=>renderAudit();
+
+window.addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
